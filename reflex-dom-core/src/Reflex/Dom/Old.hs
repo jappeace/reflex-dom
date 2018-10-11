@@ -103,34 +103,6 @@ elConfig_attributes f (ElConfig a b) = (\b' -> ElConfig a b') <$> f b
 {-# INLINE elConfig_attributes #-}
 #endif
 
-type MonadWidgetConstraints t m =
-  ( DomBuilder t m
-  , DomBuilderSpace m ~ GhcjsDomSpace
-  , MonadFix m
-  , MonadHold t m
-  , MonadSample t (Performable m)
-  , MonadReflexCreateTrigger t m
-  , PostBuild t m
-  , PerformEvent t m
-  , MonadIO m
-  , MonadIO (Performable m)
-#ifndef ghcjs_HOST_OS
-  , DOM.MonadJSM m
-  , DOM.MonadJSM (Performable m)
-#endif
-  , TriggerEvent t m
-  , HasJSContext m
-  , HasJSContext (Performable m)
-  , HasDocument m
-  , MonadRef m
-  , Ref m ~ Ref IO
-  , MonadRef (Performable m)
-  , Ref (Performable m) ~ Ref IO
-  )
-
-class MonadWidgetConstraints t m => MonadWidget t m
-instance MonadWidgetConstraints t m => MonadWidget t m
-
 type WidgetHost m = Performable m
 
 type El = Element EventResult GhcjsDomSpace
